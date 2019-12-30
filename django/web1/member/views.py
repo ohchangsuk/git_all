@@ -7,13 +7,23 @@ from django.db import connection
 
 cursor= connection.cursor()
 
+
+
+@csrf_exempt #post로 값을 전달 받는 곳은 필수 
+def join1(request):
+    if request.method =='GET':
+        return render(request, "member/join1.html")
+
+
 def list(request):
     sql = "SELECT * FROM MEMBER ORDER BY ID ASC"
     cursor.execute(sql)#sql문 실행
-    data = cursor.fetchall()
+    data = cursor.fetchall() #결과값을 가져옴
     print(type(data))#list
-    print(data)
+    print(data)# [(1,2,3,4,5),(),()]
 
+    #list.html을 표시하기 전에
+    #list 변수에 data값을, title 변수에 "회원목록" 문자를
     return render(request, 'member/list.html',
     {"list":data, "title":"회원목록"})
 

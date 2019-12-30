@@ -21,4 +21,6 @@ urlpatterns =[
     path('join', views.join, name='join'),
     path('login', views.login, name='login'),
     path('list', views.list, name='list'),
+
+    path('join1', views.join1, name='join1'),
 ]
