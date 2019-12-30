@@ -5,6 +5,18 @@ from django.db import connection
 # Create your views here.
 
 
+cursor= connection.cursor()
+
+def list(request):
+    sql = "SELECT * FROM MEMBER ORDER BY ID ASC"
+    cursor.execute(sql)#sql문 실행
+    data = cursor.fetchall()
+    print(type(data))#list
+    print(data)
+
+    return render(request, 'member/list.html',
+    {"list":data, "title":"회원목록"})
+
 def index(request):
     #return HttpResponse("index page <hr />")
     return render(request, "member/index.html")
@@ -40,7 +52,7 @@ def join(request):
         print(ar)
         #DB에 추가함
 
-        cursor= connection.cursor()
+        
         sql='''        
         INSERT INTO MEMBER (ID,NAME,AGE,PW,JOINDATE)
         VALUES(%s, %s, %s, %s, SYSDATE)

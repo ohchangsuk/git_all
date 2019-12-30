@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>{{title}}</title>
 </head>
 <body>
-    {%for tmp in list%}
-        {{tmp[0]}},{{tmp[1]}},{{tmp[2]}},{{tmp[3]}} <br />
-    {%endfor%}
+  {% for one in list %}
+    {{one.0}}
+    {{one.1}}
+    {{one.2}}
+    {{one.3}}
+    {{one.4}}
+  {% endfor %}  
 </body>
 </html>
