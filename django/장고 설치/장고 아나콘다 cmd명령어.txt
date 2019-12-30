@@ -1,0 +1,12 @@
+1.경로 만들기(폴더생성)
+ cd C:\Users\hangaramit-01\Desktop\django
+2. pip로 장고 라이브러리 생성
+ pip install django
+3. 웹 만들기(폴더? 장고폴더)
+django-admin startproject web1
+4.웹1 폴더로 이동
+cd web1(dir로 폴더확인)
+5.장고 앱 시작
+django-admin startapp member
+6.서버 시작
+python manage.py runserver

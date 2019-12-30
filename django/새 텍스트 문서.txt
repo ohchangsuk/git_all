@@ -1,0 +1,24 @@
+1. @ web1에서 url, Db설정 하는이유 web1을 상위로 잡고 상위에서 db설정,하면 하위 앱 한번에 설정 다 되니깐,
+
+web1에서 설정하고, templates/member에서 저번 시간에 만들어 놓은 join 외 2개 파일 복사 넣기 한뒤에
+저번시간에 만들어 놓은것은 GET, POST 두개 로 구동하니깐 
+
+
+구동순서 
+1, web1의 urls에서 urlpatterns를 읽음 그러면 path의 함수들을 읽음
+
+
+
+----------------------
+db
+
+1. db라이트 다운 64비트 집파일
+2. python manage.py migrate(cmd)커맨드 실행하고, 폴더 및 파일 생성(자동)
+3. 연동 view. py > #DB에 추가함 아래 
+
+        cursor= connection.cursor()
+        sql='''        
+        INSERT INTO MEMBER (ID,NAME,AGE,PW,JOINDATE)
+        VALUES(%s, %s, %s, %s,datetime())
+        '''
+        cursor.execute(sql, ar)
