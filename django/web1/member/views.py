@@ -8,9 +8,18 @@ from django.db import connection
 cursor= connection.cursor()
 
 @csrf_exempt
+def delete(request):
+    if request.method=='GET' or request.method=='POST':
+        ar=[request.session['userid']]
+        sql="DELETE FROM MEMBER WHERE ID = %s"    
+        cursor.execute(sql, ar)
+
+        return redirect('/member/logout')
+@csrf_exempt
 def edit(request):
     if request.method =='GET':
         ar=[request.session['userid']]
+
         sql = '''
             SELECT * FROM MEMBER WHERE ID=%s
         '''
@@ -25,14 +34,15 @@ def edit(request):
             request.POST['age'],
             request.POST['id'],
         ]
-        cursor.execute(sql, ar)
-
-        return redirect("/member/index")
-
+        
         sql='''
             UPDATE MEMBER SET NAME=%s, AGE=%s
             WHERE ID=%s
         '''
+        cursor.execute(sql, ar)
+
+        return redirect("/member/index")
+
         # HTML에서 넘어온 값 받기  
 
 @csrf_exempt
