@@ -1,13 +1,7 @@
 <!--파일명 : template-->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>join</title>
-</head>
-
+{% include "./header.html" %}
+<body>
+    {% include "./menu.html" %}
     <h3>회원가입</h3>
     <hr />
     <form action="/member/join" method="post">
