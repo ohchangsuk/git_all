@@ -7,6 +7,10 @@ from django.db import connection
 
 cursor= connection.cursor()
 
+def index(request):
+    #return HttpResponse("index page <hr />")
+    return render(request, "member/index.html")
+    
 @csrf_exempt
 def delete(request):
     if request.method=='GET' or request.method=='POST':
@@ -65,9 +69,6 @@ def list(request):
     return render(request, 'member/list.html',
     {"list":data, "title":"회원목록"})
 
-def index(request):
-    #return HttpResponse("index page <hr />")
-    return render(request, "member/index.html")
 
 @csrf_exempt
 def login(request):
