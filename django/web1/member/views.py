@@ -7,13 +7,41 @@ from django.db import connection
 
 cursor= connection.cursor()
 
-
-
-@csrf_exempt #post로 값을 전달 받는 곳은 필수 
-def join1(request):
+@csrf_exempt
+def edit(request):
     if request.method =='GET':
-        return render(request, "member/join1.html")
+        ar=[request.session['userid']]
+        sql = '''
+            SELECT * FROM MEMBER WHERE ID=%s
+        '''
 
+        cursor.execute(sql, ar)
+        data=cursor.fetchone()
+        print(data)
+        return render(request, "member/edit.html",{"one":data})
+    elif request.method == 'POST':
+        ar = [
+            request.POST['name'],
+            request.POST['age'],
+            request.POST['id'],
+        ]
+        cursor.execute(sql, ar)
+
+        return redirect("/member/index")
+
+        sql='''
+            UPDATE MEMBER SET NAME=%s, AGE=%s
+            WHERE ID=%s
+        '''
+        # HTML에서 넘어온 값 받기  
+
+@csrf_exempt
+def join1(request):
+    if request.method =='GET':#post로 값을 전달 받는 곳은 필수 
+        return render(request, "member/join1.html")
+    elif request.method== 'POST':
+         return render(request, "member/join1.html")
+    
 
 def list(request):
     sql = "SELECT * FROM MEMBER ORDER BY ID ASC"
@@ -36,17 +64,38 @@ def login(request):
     if request.method =='GET':
         return render(request, "member/login.html")
     elif request.method== 'POST':
-        id = request.POST['id']# HTML에서 넘어온 값 받기    
-        pw = request.POST['pw']
-        ar=[id, pw]#2개로 각각 왔는데 리스트로 만들어서 관리하기 편하게 
+        # HTML에서 넘어온 값 받기    
+        ar = [request.POST['id'], request.POST['pw']]
         print(ar)
-        #DB에 추가함
 
+        
+        #DB에 추가함 id는 id로 받고 pw는 밑에 pw=%s에 넣는다 그리고 난 후 아이디와 이름을 골라서 화면에뿌려주는것. 로그인
+        sql="SELECT * FROM MEMBER WHERE ID=%s AND PW=%s"
+
+        cursor.execute(sql, ar)
+       
+        data=cursor.fetchone()#한줄 가져 오기 아이디가 한개니깐 중복 되면 데이터 베이스가 엉망이란 소리 이므로.
+        print(type(data))
+        print(data)
+
+        
+        if data:
+            request.session['userid']=data[0]
+            request.session['username']=data[1]
+            return redirect('/member/index')
+        
+
+        return redirect('/member/login')
 
 
         #크롬에서 127.0.0.1:8000/member/index 엔터키를 
+@csrf_exempt #post로 값을 전달 받는 곳은 필수 
+def logout(request):
+    if request.method =='GET' or request.method == 'POST':
+        del request.session['userid']
+        del request.session['username']
         return redirect('/member/index')
-    
+
 
 @csrf_exempt #post로 값을 전달 받는 곳은 필수 
 def join(request):
