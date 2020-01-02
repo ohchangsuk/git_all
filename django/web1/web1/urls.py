@@ -15,8 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+#127.0.0.1:8000/admin
+#127.0.0.1:8000/admin/member/???
+#127.0.0.1:8000/admin/board/???
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('member/', include("member.urls"))#url이 2개가 만들어진다는 거임
+    path('member/', include("member.urls")),
+    path('board/', include("board.urls")),#url이 2개가 만들어진다는 거임
 ]
