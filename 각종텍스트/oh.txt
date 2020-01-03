@@ -1,0 +1,93 @@
+1.파이썬
+2.데이터분석
+3.러닝
+4.빅데이터
+5.파이널.( 서버 리눅스)
+ide : 개발 통합환경,(툴 - 전용툴 : 파이선ide 파이참, 파이데브 ,.스파이더, 주피터 노트북 *jupyter notebook(아주중요) > i python(커맨드스타일 분석툴)+웹(flask)*
+                             - 범용툴 : 기존의 개발환경+플러그인 추가 
+                                          vs code + python + anaconda + jupyter
+
+
+
+아나콘다 위치 C:\Users\hangaramit-01\Anaconda3 [PATH 체크 할 것 ]
+
+
+vscode 설정 (file - setting )[ 필요하면 수정]
+ - 프로젝트 원하는 위치에 폴더 생성.
+ - 파이썬 _프로젝트 > 해당 폴더를 드레그 해서, 브이에스 코드 드롭 > 해당위치로 브이에스 코드 재 오픈
+ - 에디터 설정 ( file > preferences > settings)
+ - 검색(인덱싱) > 항목 찾아서 수정 
+    ex) thema(테마), 
+         font(폰트)등 수정
+        전체줌 (컨트롤 + -or +)
+        cmd 명령어 (컨트롤 + `)    ------ view > 터미널
+
+
+
+----------------------------------
+1.git 프로젝트를 관리할 폴더 생성 및 이동
+ $ mkdir py_projects
+ $ cd py_projects
+2.git상 프로젝트 다운로드
+[public]
+$ git clone 주소
+3. vs code 에서 py_projects오픈
+4. git사용자임을 등록
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+
+kuhrd.step.or.kr
+
+
+
+-----------------------------------
+파이썬 웹>
+이름 홍성석
+ihongss.com
+010-7255-2405
+
+id 20191216
+pw 20191216
+
+
+db연동 다운 받기
+1, http://ihongss.com/home/post?id=p_1573554859361
+2, https://github.com/docker/toolbox/releases( 깃에서 맨 위에꺼 실행)
+
+
+docker 다운받고
+
+docker search oracle-12c 치고 엔터>>>오라클 이미지 검색
+
+docker-machine stop >> 도커 머신 종료
+설정-시스템-메모리 8기가로 변경
+docker-machine start
+
+docker pull truevoly/oracle-12c
+
+docker image
+
+
+------------------
+세션 db는 이걸 많이 씀 ( 메모리) 
+redis
+meamhead
+-------------------(model)-------------
+
+django-admin startapp board
+
+python manage.py makemigrations board
+
+python manage.py migrate board
+
+--------------admin만들기----------------
+python manage.py createsuperuser
+아이디 admin
+
+---sql------------------
+
+SELECT
+	
+FROM
+WHER

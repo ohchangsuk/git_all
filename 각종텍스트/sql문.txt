@@ -1,0 +1,107 @@
+! board예시
+<데이터 베이스 내 데이터 삭제>
+
+        sql = """
+            DELETE FROM BOARD_TABLE1
+            WHERE NO=%s
+            """
+
+
+<조회수 1증가>
+
+            sql = """
+                    UPDATE BOARD_TABLE1 SET HIT = HIT+1
+                    WHERE NO=%s
+            """
+
+
+
+<이전글 or 다음글 가져오기>
+(NVL)=널값
+ #이전글 가져오기
+        sql = '''   SELECT NVL(MAX(NO), 0)
+                    FROM BOARD_TABLE1
+                    WHERE NO < %s
+        '''
+
+
+#다음글 가져오기            
+        sql = '''  SELECT NVL(MIN(NO), 0)
+                FROM BOARD_TABLE1
+                WHERE NO > %s
+        '''
+
+<게시글 가져오기>
+
+
+#게시글 가져오기
+
+        sql = """
+            SELECT 
+                NO, TITLE, CONTENT, WRITER, HIT, 
+                TO_CHAR(REGDATE, 'YYYY-MM-DD HH:MI:SS'),
+                IMG
+            FROM 
+                BOARD_TABLE1
+            WHERE
+                NO=%s
+    
+        """
+
+
+
+<오름차순 적용한거>
+
+
+#DESC<<오름차순(최신글이 먼저 와야 하므로)
+
+        sql = """
+                SELECT 
+                    NO,TITLE, WRITER, HIT, TO_CHAR(REGDATE, 'YYYY-MM-DD HH:MI:SS') 
+                FROM 
+                    BOARD_TABLE1
+                ORDER BY NO DESC
+        """
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------
+--주석문
+INSERT INTO BOARD_TABLE1
+    (TITLE, CONTENT, WRITER, HIT, REGDATE)
+VALUES
+    ('sql에서 추가', '내용임', '작성자임', 34, SYSDATE);
+COMMIT;
+---------------수정sql----------------------
+--주석문
+INSERT INTO BOARD_TABLE1
+    (TITLE, CONTENT, WRITER, HIT, REGDATE)
+VALUES
+    ('sql에서 추가', '내용임', '작성자임', 34, SYSDATE);
+COMMIT;
+--삭제
+DELETE FROM BOARD_TABLE1 WHERE NO=50;
+
+COMMIT;
+
+--수정
+UPDATE BOARD_TABLE1 SET TITLE = '변경1', CONTENT = '변경2' WHERE NO=50;
+COMMIT;
+
+--조회
+SELECT * FROM BOARD_TABLE1;
+SELECT * FROM BOARD_TABLE1 ORDER BY NO DESC;
+SELECT * FROM BOARD_TABLE1 WHERE NO=3;
+SELECT * FROM BOARD_TABLE1 WHERE NO IN (3,4,5,6);
+SELECT * FROM WHERE NO IN(
+    SELECT * FROM BOARD_TABLE1 WHERE HIT >= 100;
+);
+
+
+
+
+

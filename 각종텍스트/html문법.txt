@@ -1,0 +1,9 @@
+row justify-content-end' >>> 오른쪽 정렬
+
+&nbsp; >>>>스페이스바
+--------------------------pandas-------------------------
+판다스에서 웹에 코드 다 표시 하지 말고 읽어서 표로 나오게 하는거 
+
+    {% autoescape off %}
+        {{ df }}
+    {% endautoescape %}
