@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>insertall</title>
+</head>
+<body>
+    <h3>insertall</h3>
+    <hr />
+    <form action="/board/t2_insert_all" method="POST">
+        {% csrf_token %}    
+        <table>
+            {% for i in 'x'|rjust:'5' %} <!-for i in range(5)라는 이야기임->
+            <tr>
+                <td><input type="text" name="name[]" value="d"/></td>
+                <td><input type="text" name="kor[]" value="1"/></td>
+                <td><input type="text" name="eng[]" value="1"/></td>
+                <td><input type="text" name="math[]" value="1"/></td>
+            </tr>
+            {% endfor %}
+
+
+        </table>
+
+    <input type="submit" value="추가" />
+    <a href="/board/t2_list">목록</a>
+    </form>
+</body>
+</html>

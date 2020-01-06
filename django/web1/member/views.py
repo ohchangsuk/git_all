@@ -58,7 +58,7 @@ def join1(request):
     
 
 def list(request):
-    sql = "SELECT * FROM MEMBER ORDER BY ID ASC"
+    sql = "SELECT * FROM MEMBER ORDER BY ID ASC" #오름차순 or 내림차순
     cursor.execute(sql)#sql문 실행
     data = cursor.fetchall() #결과값을 가져옴
     print(type(data))#list

@@ -22,5 +22,5 @@ class Table2(models.Model):
     name   = models.CharField(max_length=200)#글 제목
     kor = models.IntegerField()
     eng = models.IntegerField()
-    mat = models.IntegerField()
+    math = models.IntegerField()
     regdate = models.DateField(auto_now_add=True)
