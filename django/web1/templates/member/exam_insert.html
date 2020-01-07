@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <form action="/member/exam_insert" method="POST">
+        {% csrf_token %}
+        이름 : <input type="text" name="name">
+        국어 :<input type="text" name="kor">
+        영어 :<input type="text" name="eng">
+        수학 :<input type="text" name="math">
+        반 :<input type="text" name="classroom">
+    
+        <input type="submit" value="넣기">
+    </form>
+    <br>
+
+    <form action="/member/exam_select" method='POST'>
+        {% csrf_token %}
+        <input type="hidden" name='menu' value='1' />    
+            
+                <table border="1"style='float:left;'>
+
+                <tr>
+                    <td>번호</td>
+
+                    <td>이름</td>
+                    <td>국어</td>
+                    <td>영어</td>
+                    <td>수학</td>
+                    <td>반</td>
+                    <td>등록시간</td>
+                    <td>기타</td>
+
+
+                </tr>
+
+                
+
+
+                {% for one in list %}
+                <tr>
+                
+                        <td>
+                            <input type="checkbox" value = '{{one.no}}' name="chk[]" />
+                            {{one.no}}
+                        </td>        
+                        <td>{{ one.name }}</td>
+                        <td>{{ one.kor }}</td>
+                        <td>{{ one.eng }}</td>
+                        <td>{{ one.math }}</td>
+                        <td>{{ one.classroom }}</td>
+                        <td>{{ one.regdate }}</td>
+                        <td>
+                            <a href="/member/exam_delete?no={{one.no}}">삭제</a>
+                            <a href="/member/exam_update?no={{one.no}}">수정</a>
+            
+            
+                        </td>
+                </tr>
+        
+                {% endfor %}
+                </table>
+                
+                <table>
+        
+                        <input type="submit" value="선택조회" /><br>
+
+                    
+                </table>
+                
+            
+    </form>
+
+     
+
+
+</body>
+</html>

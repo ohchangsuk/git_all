@@ -2,7 +2,13 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db import connection
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate as auth1
+from django.contrib.auth import login as login1
+from django.contrib.auth import logout as logout1
 # Create your views here.
+from.models import table2
+from django.db.models import Sum, Max, Min, Count, Avg
 
 
 cursor= connection.cursor()
@@ -132,3 +138,176 @@ def join(request):
 
         #크롬에서 127.0.0.1:8000/member/index 엔터키를 
         return redirect('/member/index')
+@csrf_exempt
+def auth_join(request):
+    if request.method =="GET":
+        return render(request,'member/auth_join.html')
+    elif request.method=='POST':
+        id = request.POST['username']
+        pw = request.POST['password']
+        na = request.POST['first_name']
+        em = request.POST['email']
+
+        obj = User.objects.create_user(
+            
+            username=id,
+            password=pw,
+            first_name=na,
+            email=em
+            )
+        obj.save()
+
+        return redirect('/member/auth_index')
+
+
+@csrf_exempt
+def auth_index(request):
+    if request.method =="GET":
+        return render(request,'member/auth_index.html')
+    elif request.method=='POST':
+        return redirect('/member/auth_index')
+
+@csrf_exempt
+def auth_login(request):
+    if request.method =="GET":
+        return render(request,'member/auth_login.html')
+    elif request.method=='POST':
+        id = request.POST['username']
+        pw = request.POST['password']
+        #db에 인증하기
+        obj = auth1(request, username=id, password=pw)
+
+        if obj is not None:
+            login1(request,obj) #세션에 추가
+        return redirect("/member/auth_index")
+@csrf_exempt
+def auth_logout(request):
+    if request.method =="GET" or request.method=='POST':
+        logout1(request) # 세션 초기화 
+        return redirect("/member/auth_index")
+@csrf_exempt
+def auth_edit(request):
+    if request.method =="GET":
+        if not request.user.is_authenticated:
+            return redirect('/memeber/auth_login')
+
+        obj=User.objects.get(username=request.user)
+        return render(request, 'member/auth_edit.html', {'obj':obj})
+    elif request.method=='POST':
+        id = request.POST['username']
+        na = request.POST['first_name']
+        em = request.POST['email']
+
+        obj=User.objects.get(username=id)
+        obj.first_name =na
+        obj.email=em
+        obj.save()
+        return redirect('/member/auth_index')
+@csrf_exempt
+def auth_pw(request):
+    if request.method =="GET":
+        if not request.user.is_authenticated:
+            return redirect('/memeber/auth_login')
+
+        return render(request, 'member/auth_pw.html')
+
+    elif request.method=='POST':
+        pw=request.POST['pw']
+        pw1=request.POST['pw1']
+        obj=auth1(request, username=request.user, password=pw)
+        if obj:
+            obj.set_password(pw1) #pw1으로 암호변경
+            obj.save()
+            return redirect('/member/auth_index')
+        return redirect('/member/auth_pw')
+##############################################################exam_#####################################
+#URLS.PY
+#EXAM_INSERT
+#EXAM_UPDATE
+#EXAM_DLELTE
+#EXAM_SELECT
+def exam_insert(request):
+    if request.method =="GET":
+        rows=table2.object.all()# select
+        return render(request, 'member/exam_insert.html', {'list':rows})
+
+    elif request.method=='POST':
+        obj = table2()#obj객체 생성
+        obj.name = request.POST['name']
+        obj.kor = request.POST['kor']
+        obj.eng = request.POST['eng']
+        obj.math = request.POST['math']
+        obj.classroom = request.POST['classroom']
+        obj.save()
+        return redirect('/member/exam_insert')
+
+def exam_update(request):
+        if request.method=='GET':
+            n = request.GET.get('no', 0)
+            row = table2.object.get(no=n)
+            return render(request, 'member/exam_update.html', {'one':row})
+        elif request.method=='POST':
+                n=request.POST['no']
+                obj = table2.object.get(no=n)#obj객체 가져옴
+                obj.name = request.POST['name']# 변수의 값
+                obj.kor = request.POST['kor']
+                obj.eng = request.POST['eng']
+                obj.math = request.POST['math']
+                obj.save() #저장하기 수행
+
+                #UPDATE BOARD_TABLE2 SET
+                # NAME=%s, KOR=%s, ENG = %s, MATH=%s WHERE=%s
+                return redirect('/member/exam_insert')  
+
+def exam_delete(request):
+    if request.method =="GET":
+        n = request.GET.get('no',0)
+            #SQL : SELECT * FROM BOARD_TABEL2 WHERE NO=%s
+        row = table2.object.get(no=n)
+        row.delete() #삭제
+
+        return redirect('/member/exam_insert')
+
+def exam_select(request):
+    if request.method=='GET':
+        n=request.session['no'] # 8, 5, 3
+        print(n)
+        rows = table2.object.filter(no__in=n)
+            #"SELECT * FROM BOARD_TABLE2 WHERE NO=8 OR NO =5 OR NO=3"
+            #"SELECT * FROM BOARD_TABLE2 WHERE NO IN (8,5,3)"       
+            #"SELECT * FROM BOARD_TABLE2 WHERE NO=8 OR NO =5 OR NO=3"
+
+        return render(request, 'member/exam_insert.html', {'list':rows})
+
+    elif request.method=='POST':
+        no=request.POST.getlist('no[]')
+        name=request.POST.getlist('name[]')
+        kor=request.POST.getlist('kor[]')
+        eng=request.POST.getlist('eng[]')
+        math=request.POST.getlist('math[]')
+        objs=[]
+
+        for i in range(0, len(no), 1):
+            obj = table2.object.get(no=no[i])
+            obj.name = name[i]
+            obj.kor = kor[i]
+            obj.eng = eng[i]
+            obj.math = math[i]
+            objs.append(obj)
+            return redirect("/member/exam_insert")
+
+'''def exam_select(request):
+no= request.Get.get('no',0)
+SELECT SUM(math) FROM MEMBER_TABLE2
+list = table2.object.aggregate(sum('math'))
+
+SELECT NO, NAME FROM MEMER_TABLE2
+list = table2.object.all().values(['no','name'])
+
+SELECT * FROM MEMBER_TABLE2 ORDER BU NAME ASC
+list = table2.object.all().order_by('name')
+list = table2.object.raw('SELECT * FROM MEMBER_TABLE2 ORDER BU NAME ASC')'''
+
+'반 별 국어, 영어, 수학 합계'
+
+

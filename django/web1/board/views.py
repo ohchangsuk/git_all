@@ -6,6 +6,7 @@ from base64 import b64encode  #이미지 인코딩 해주는 코드(byte매열�
 import pandas as pd
 from.models import Table2 # models.py파일의 table2클래스 연결
 
+
 # Create your views here.
 cursor = connection.cursor()#sql수행을 위한 cursor객체
 
