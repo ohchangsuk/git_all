@@ -101,7 +101,24 @@ SELECT * FROM WHERE NO IN(
     SELECT * FROM BOARD_TABLE1 WHERE HIT >= 100;
 );
 
-
+----------------------------선택해서 또 선택하는거???_---------------------------------
+--my seql 기준
+ SELECT
+     *
+ FROM member_table2 LIMIT 1,10;
+ --ORACLE
+SELECT
+    *
+FROM (
+    SELECT
+      NO, TITLE, CONTENT,
+      ROW_NUMBER() OVER (ORDER BY NO DESC)ROWN
+    FROM
+        BOARD_TABLE1)
+WHERE ROWN BETWEEN 5 AND 9
+  --ORACLE
+SELECT*FROM BOARD_TABLE1
+WHERE NAME LIKE '%'||'홍길동'||'%';
 
 
 

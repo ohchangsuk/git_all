@@ -33,20 +33,35 @@
             </tr>
 
             {% for one in list %}
-            <tr>
-                <td>{{one.0}}</td>
-                <td><a href= '/board/content?no={{one.0}}'> {{ one.1 }} </a></td>
-                <td>{{one.2}}</td>
-                <td>{{one.3}}</td>
-                <td>{{one.4}}</td>
-            </tr>
+                <tr>
+                    <td>{{one.no}}</td>
+                    <td><a href= '/board/content?no={{one.no}}'> {{ one.title }} </a></td>
+                    <td>{{one.writer}}</td>
+                    <td>{{one.hit}}</td>
+                    <td>{{one.regdate}}</td>
+                </tr>
             {% endfor %}
+            <!--{% for one in list %}
+                <tr>
+                    <td>{{one.0}}</td>
+                    <td><a href= '/board/content?no={{one.0}}'> {{ one.1 }} </a></td>
+                    <td>{{one.2}}</td>
+                    <td>{{one.3}}</td>
+                    <td>{{one.4}}</td>
+                </tr>
+            {% endfor %}-->
 
 
 
         </table>
-
-
+                       <!-- <a href="/member/exam_select?page={{i}}&txt={{request.GET.txt}}">{{i}}</a>-->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {% for i in pages %}
+                   <li class="page-item"><a class="page-link" href="/board/list?page={{i}}">{{i}}</a></li>
+                {% endfor %}
+            </ul>
+        </nav>
 
 
     </div>

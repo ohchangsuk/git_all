@@ -7,23 +7,38 @@
     <title>Document</title>
 </head>
 <body>
-
-    <form action="/member/exam_select" method="POST">
-        <input type="hidden" name='menu' />    
-        <table border="1">
-            {% for one in list %}
-                <tr>
-                    <td><input type="text" name = 'no[]' value='{{one.no}}' readonly /></td>
-                    <td><input type="text" name = 'name[]' value='{{one.name}}' /></td>
-                    <td><input type="text" name = 'kor[]'value='{{one.kor}}' /></td>
-                    <td><input type="text" name = 'eng[]'value='{{one.eng}}' /></td>
-                    <td><input type="text" name = 'math[]'value='{{one.math}}' /></td>
-                </tr>
-            {%endfor%}
-
-        </table>
-        <input type="submit" value="일괄수정" />
-        <a href="/member/exam_insert">목록</a>      
-    
+    <form action="/member/exam_select" method='GET'>
+        <input type="text" name="txt">
+        <input type="submit" value="검색">
+    </form>
+    <table border="1">
+        <tr>
+            <th>번호</th>
+            <th>이름</th>
+            <th>국어</th>
+            <th>영어</th>
+            <th>수학</th>
+            <th>강의실</th>
+            <th>날짜</th>
+            <th></th>
+        </tr>
+        {% for row in list %}
+        <tr>
+            <td>{{row.name}}</td>
+            <td>{{row.kor}}</td>
+            <td>{{row.eng}}</td>
+            <td>{{row.math}}</td>
+            <td>{{row.classroom}}</td>
+            <td>{{row.regdate}}</td>
+            <td>
+                <a href="/member/exam_update?no={{row.no}}">수정</a>
+                <a href="/member/exam_delete?no={{row.no}}">삭제</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% for i in pages %}
+        <a href="/member/exam_select?page={{i}}&txt={{request.GET.txt}}">{{i}}</a>
+    {% endfor %}
 </body>
-</html>
+</html>        

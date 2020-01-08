@@ -10,7 +10,6 @@ from django.contrib.auth import logout as logout1
 from.models import table2
 from django.db.models import Sum, Max, Min, Count, Avg
 
-
 cursor= connection.cursor()
 
 def index(request):
@@ -269,7 +268,67 @@ def exam_delete(request):
         return redirect('/member/exam_insert')
 
 def exam_select(request):
-    if request.method=='GET':
+    
+    txt=request.GET.get('txt','')
+    page = int(request.GET.get('page', 1))
+    
+    if txt=='':
+        #select*from member_table2 <--- >>범위잡을때 쓰는거>> limit 0, 10
+
+        list = table2.object.all()[page*10-10:page*10]
+        #select count(*) from member_table12
+        cnt = table2.object.all().count()
+        tot = (cnt-1)//10+1
+    else: #검색어가 있는경우
+        #select *from member_table2 where name like '%가%'
+        list= table2.object.filter(name__contains=txt)[page*10-10:page*10]
+        #select count(*) from member_table2 where name like '%가%'
+        cnt=table2.object.filter(name__contains=txt).count()
+        tot = (cnt-1)//10+1
+
+
+    return render(request, 'member/exam_select.html', {'list':list, 'pages':range(1, tot+1, 1)})
+
+def js_index(request):
+    return render(request, 'member/js_index.html')
+def js_chart(request):
+    str = '100, 200, 300, 400, 300, 200, 100'
+    return render(request, 'member/js_chart.html', {'str':str})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+ if request.method=='GET'
         n=request.session['no'] # 8, 5, 3
         print(n)
         rows = table2.object.filter(no__in=n)
@@ -295,7 +354,7 @@ def exam_select(request):
             obj.math = math[i]
             objs.append(obj)
             return redirect("/member/exam_insert")
-
+'''
 '''def exam_select(request):
 no= request.Get.get('no',0)
 SELECT SUM(math) FROM MEMBER_TABLE2

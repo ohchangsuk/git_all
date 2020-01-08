@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import connection
 from base64 import b64encode  #이미지 인코딩 해주는 코드(byte매열을 base64로 변경함.)
 import pandas as pd
-from.models import Table2 # models.py파일의 table2클래스 연결
+from.models import table1, Table2 # models.py파일의 table2클래스 연결
 
 
 # Create your views here.
@@ -133,10 +133,30 @@ def content(request):
         return render(request, 'board/content.html', {"one":data, "image":img64, "prev":prev[0], "next":nxt[0]}) 
     
 
+'''def exam_select(request):
+    
+    txt=request.GET.get('txt','')
+    page = int(request.GET.get('page', 1))
+    
+    if txt=='':
+        #select*from member_table2 <--- >>범위잡을때 쓰는거>> limit 0, 10
+
+        list = table2.object.all()[page*10-10:page*10]
+        #select count(*) from member_table12
+        cnt = table2.object.all().count()
+        tot = (cnt-1)//10+1
+    else: #검색어가 있는경우
+        #select *from member_table2 where name like '%가%'
+        list= table2.object.filter(name__contains=txt)[page*10-10:page*10]
+        #select count(*) from member_table2 where name like '%가%'
+        cnt=table2.object.filter(name__contains=txt).count()
+        tot = (cnt-1)//10+1
+
+
+    return render(request, 'member/exam_select.html', {'list':list, 'pages':range(1, tot+1, 1)})'''
+
 @csrf_exempt
 def list(request):
-    if request.method == "GET":
-
         request.session['hit'] = 1 #세션에 hit + 1
 
         #DESC<<오름차순(최신글이 먼저 와야 하므로)
@@ -149,10 +169,26 @@ def list(request):
         """
         cursor.execute(sql)
         data = cursor.fetchall()
-        print(type(data))
+        
+        sql='SELECT COUNT(*) FROM BOARD_TABLE1'
+        cursor.execute(sql)
+
+        
+        page=int(request.GET.get('page', 1))
+        rows=table1.object.all()[page*10-10:page*10]# select
+        cnt=cursor.fetchone()[0]
+        tot=(cnt-1)//10+1
 
 
-        return render(request, 'board/list.html', {"list":data} )
+        return render(request, 'board/list.html', {'list':rows, 'pages':range(1, tot+1, 1)})
+
+'''        page=int(request.GET.get('page', 1))
+        rows=table1.object.all()[page*10-10:page*10]# select
+        cnt= table1.object.all().count()
+        tot=(cnt-1)//10+1
+
+
+        return render(request, 'board/list.html', {'list':rows, 'pages':range(1, tot+1, 1)})'''
 
 
 @csrf_exempt
