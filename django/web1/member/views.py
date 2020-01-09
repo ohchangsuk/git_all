@@ -9,8 +9,137 @@ from django.contrib.auth import logout as logout1
 # Create your views here.
 from.models import table2
 from django.db.models import Sum, Max, Min, Count, Avg
+import pandas as pd
+import matplotlib.pyplot as plt
+import io
+import base64
+from matplotlib import font_manager, rc
 
 cursor= connection.cursor()
+
+
+
+def graph(request):
+
+
+    sum_eng= list(table2.object.values('classroom').annotate(sum_eng=Sum('eng')))
+    print('1', sum_eng, type(sum_eng))
+
+    x=[sum_eng[0]['classroom'],sum_eng[1]['classroom'],sum_eng[2]['classroom'],sum_eng[3]['classroom']]
+    y=[sum_eng[0]['sum_eng'],sum_eng[1]['sum_eng'],sum_eng[2]['sum_eng'],sum_eng[3]['sum_eng']]
+    #폰트 읽기
+    font_name = font_manager.FontProperties(fname='c:/windows/fonts/malgun.ttf').get_name()
+    #폰트 적용
+    rc('font', family=font_name)
+
+    plt.bar(x,y)
+    plt.title('ages&person')
+    plt.xlabel('반')
+    plt.ylabel('영어합계점수')
+
+
+    plt.draw()#안보이게 그림을 캡쳐
+    img=io.BytesIO()
+    plt.savefig(img, format='png')
+    img_url = base64.b64encode(img.getvalue()).decode()
+    plt.close()
+#########################################################################################################################
+    avg_class=table2.object.values('classroom').annotate(Avg('kor'), Avg('eng'), Avg('math'))
+
+
+    df = pd.DataFrame(avg_class)
+    df = df.set_index('classroom')
+    print(df)
+    df.plot(kind='bar')
+        #plt.show()#표시
+    plt.draw()#안보이게 그림을 캡쳐
+    img=io.BytesIO()
+    plt.savefig(img, format='png')
+    img_url1 = base64.b64encode(img.getvalue()).decode()
+    plt.close()
+
+
+    return render(request, 'member/graph.html', {'graph1':'data:;base64,{}'.format(img_url), 'graph2':'data:;base64,{}'.format(img_url1)})
+
+'''
+    #select sum('kor')from member_table2
+    sum_kor = table2.object.aggregate(Sum('kor'))
+    print(sum_kor)#"kor__sum"
+
+
+    #select sum('kor') as sum1 from member_table2
+    sum_kor = table2.object.aggregate(sum1=Sum('kor'))
+    print(sum_kor)
+    
+    #where classroom=102
+    sum_kor = table2.object.filter(classroom='102').aggregate(sum1=Sum('kor'))
+    print(sum_kor)
+    
+    #select sum('kor') from member_table2
+    #where kor > 10
+    # >gt, >=gte, <it, <=ite
+    
+    sum_kor = table2.object.filter(kor__gt=10).aggregate(sum1=Sum('kor'))
+    print(sum_kor)
+
+
+    #select SUM('kor')sum1, SUM('eng') sum2, SUM('math')sum3
+    #from member_table2
+    #group by classroom
+
+    sum_kor=table2.object.values('classroom').annotate(sum1=Sum('kor'), sum2=Sum('eng'),sum3=Sum('math'))
+    print(sum_kor)
+    print(sum_kor.query)
+
+    df = pd.DataFrame(sum_kor)
+    df = df.set_index('classroom')
+    print(df)
+    df.plot(kind='bar')
+
+
+
+    x=['kor','eng', 'math']
+    y=[3,3,4]'''
+ 
+################################################################################################################
+'''#폰트 읽기
+    font_name = font_manager.FontProperties(fname='c:/windows/fonts/malgun.ttf').get_name()
+    #폰트 적용
+    rc('font', family=font_name)
+
+    plt.bar(x,y)
+    plt.title('ages&person')
+    plt.xlabel('나이')
+    plt.ylabel('숫자')
+
+    #plt.show()#표시
+    plt.draw()#안보이게 그림을 캡쳐
+    img=io.BytesIO()
+    plt.savefig(img, format='png')
+    img_url = base64.b64encode(img.getvalue()).decode()
+    plt.close()
+
+    return render(request, 'member/graph.html', {'graph1':'data:;base64,{}'.format(img_url)}) '''
+    #<img src='{{graph1}}'/> <= graph.html에서
+
+def dataframe(request):
+    #select*from member_table2
+    #rows = table2.objects.all()
+
+    # 1, QuerySet > list로변경
+    #select no,name,kor from member_table2
+    rows= table2.object.all().values('no','name','kor')
+
+    
+    print(type(rows))
+    #2, list > dataframe으로 변경
+    df=pd.DataFrame(rows)
+    
+    #3, dataframe ->list
+    rows1 = df.values.tolist()
+    print(type(rows1))
+    print(type(df))
+    return render(request, 'member/dataframe.html', {'df_table':df.to_html(), 'list':rows, 'list1':rows1})
 
 def index(request):
     #return HttpResponse("index page <hr />")
@@ -62,7 +191,7 @@ def join1(request):
          return render(request, "member/join1.html")
     
 
-def list(request):
+def list1(request):
     sql = "SELECT * FROM MEMBER ORDER BY ID ASC" #오름차순 or 내림차순
     cursor.execute(sql)#sql문 실행
     data = cursor.fetchall() #결과값을 가져옴

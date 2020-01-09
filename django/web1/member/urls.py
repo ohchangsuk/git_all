@@ -20,7 +20,7 @@ urlpatterns =[
     path('index', views.index, name='index'),
     path('join', views.join, name='join'),
     path('login', views.login, name='login'),
-    path('list', views.list, name='list'),
+    path('list1', views.list1, name='list1'),
     path('logout', views.logout, name='logout'),
     path('edit', views.edit, name='edit'),
     path('delete', views.delete, name='delete'),
@@ -41,6 +41,10 @@ urlpatterns =[
 
     path('js_index', views.js_index, name='js_index'),
     path('js_chart', views.js_chart, name='js_chart'),
+
+    path('dataframe', views.dataframe, name='dataframe'),
+    path('graph', views.graph, name='graph'),
+
 
 #URLS.PY
 #EXAM_INSERT

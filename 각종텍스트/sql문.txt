@@ -122,3 +122,11 @@ WHERE NAME LIKE '%'||'홍길동'||'%';
 
 
 
+---------------------그래프-------------프린트 쿼리한거 똑같음SQL
+SELECT
+    "MEMBER_TABLE2"."CLASSROOM",
+    SUM("MEMBER_TABLE2"."KOR") AS "SUM1",
+    SUM("MEMBER_TABLE2"."ENG") AS "SUM2",
+    SUM("MEMBER_TABLE2"."MATH") AS "SUM3"
+FROM "MEMBER_TABLE2"
+    GROUP BY "MEMBER_TABLE2"."CLASSROOM"
