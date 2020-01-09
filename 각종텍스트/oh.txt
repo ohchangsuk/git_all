@@ -91,3 +91,32 @@ SELECT
 	
 FROM
 WHER
+-------------------------------
+
+$ docker start oracle12c
+
+DDL  => 테이터 정의어
+    CREATE   => 생성
+    ALTER    => 변경 타입
+    DROP     => 삭제
+    RENAME   => 이름
+    TRUNCATE => 비우기
+
+DML  => 테이터조작어
+    INSERT INTO MEMBER(ID, NAME, AGE) VALUES('a','b', 34)
+    UPDATE MEMBER SET NAME='b1', AGE=44 WHERE ID='a'
+    DELETE FROM MEMBER WHERE ID='a'
+    SELECT * FROM MEMBER WHERE ID LIKE 'a%' 
+        ORDER BY NO DESC | ASC
+    '%' || '가' || '%'  =>  "가" 포함된것
+    '가' || '%'         => "가"로 시작
+    '%' || '다'         => "다"로 끝나야 됨.
+
+DCL  => 데이터 제어어
+    GRANT => 권한 부여
+    REVOKE => 권한 삭제
+
+TCL  => 트랜젝션 제어어
+    COMMIT => 적용
+    ROLLBACK
+    SAVEPOINT
