@@ -1,0 +1,14 @@
+1,docker search mongo
+2,docker pull mongo
+3,docker images
+4,docker run --name mongodb -d -p 32766:27017 mongo
+5, docker logs mongodb
+6,https://robomongo.org/ 접속(구글:robo mongo검색)[
+Download Robo 3T Only] 클릭
+밑에 오른쪽 Robo 3T (formerly Robomongo)
+밑에꺼
+
+docker stop mongdb
+docker rm mongdb
+7,pip install pymongo
+conda list 로 확인

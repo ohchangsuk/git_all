@@ -92,7 +92,11 @@ SELECT
 FROM
 WHER
 -------------------------------
-
+----------jqury---------
+jqury cdn 검색 > minified
+https://code.jquery.com/
+-----------------------------------------
+https://summernote.org/getting-started/
 $ docker start oracle12c
 
 DDL  => 테이터 정의어
@@ -120,3 +124,44 @@ TCL  => 트랜젝션 제어어
     COMMIT => 적용
     ROLLBACK
     SAVEPOINT
+
+
+일괄 수정bulk_update
+일괄 추가bulk_create
+데이터프래임 to HTML
+
+
+---------------------데이터 수집 ------------------------
+json, xml >>실시간 수집 가능
+csv >>>>다운받아야됨
+
+
+?key = abc&num =10&search ='가'
+
+>키가 abc이고 물품 이름이 '가'포함된 3개의 물품을 뽑아라.
+
+
+
+
+-----------------------CORS--------------------------
+1, pip install django-cors-headers
+
+2, $ pip install django-cors-headers
+
+파일명 : setting.py
+INSTALLED_APPS = (
+    'corsheaders',  
+    
+)
+
+MIDDLEWARE = (
+    'corsheaders.middleware.CorsMiddleware'    
+)
+
+#마지막에 추가
+CORS_ORIGIN_ALLOW_ALL = True
+
+-----------------------------------------------------------
+---------------과제----------------
+
+1.모델 먼저 만들기 ( 모델먼저 만들어야지 db에 연동할때 번거롭지 않음)

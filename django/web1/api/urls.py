@@ -1,0 +1,31 @@
+#api/ur1s.py
+
+from django.urls import path
+from . import views
+
+
+
+
+#127.0.0.1:8080/member/abc => index 함수 동작
+#view에 있는 index 함수를 실행 하라.
+#urlpatterns는 url(주소/>>>>>이부분<<)에 있는 곳에 들어가서 views함수를 작동시켜라는 말임;
+#127.0.0.1:8080/member/index
+#127.0.0.1:8080/member/join
+#127.0.0.1:8080/member/login
+#크롬에 쳤을때 제일 처음에 urls에 들어와서 아래의 명령코드 들을 수행 그리고 views.py에 들어가서 함수 실행 
+
+#
+
+urlpatterns =[
+    path('insert1', views.insert1, name='insert1'),
+    path('select1', views.select1, name='select1'),
+    path('select2', views.select2, name='select2'),
+
+
+
+#URLS.PY
+#EXAM_INSERT
+#EXAM_UPDATE
+#EXAM_DLELTE
+#EXAM_SELECT
+]

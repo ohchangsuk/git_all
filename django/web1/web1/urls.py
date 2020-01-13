@@ -22,4 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('member/', include("member.urls")),
     path('board/', include("board.urls")),#url이 2개가 만들어진다는 거임
+    path('api/', include("api.urls")),
+
 ]

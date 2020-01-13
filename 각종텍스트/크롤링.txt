@@ -1,0 +1,20 @@
+1, 디비 연결
+import cx_Oracle as oci
+
+conn=oci.connect('admin/1234@192.168.99.100:32764/xe')#접속하기(아이디/암호@주소:포트/SID)
+
+2, 데이터 가져오기
+cursor=conn.cursor()
+sql = 'SELECT * FROM MEMBER'
+cursor.execute(sql)
+data=cursor.fetchall()
+
+3. resources 폴더> json 다운받거나 웹에서 바로 넣음
+
+import json
+
+#파일 읽기(아직 01010101임)
+file1=open('./resources/exam1.json')
+#(0101010101인걸 dict로 변경)
+#str to dict로 변경
+data1=json.load(file1)
